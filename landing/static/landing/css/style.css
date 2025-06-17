@@ -29,12 +29,38 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
     color: var(--text-primary);
     background-color: var(--bg-white);
     overflow-x: hidden;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Запобігання горизонтального скролу */
+.container-fluid,
+.container,
+.row {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Базова адаптивність для всіх елементів */
+img,
+video,
+embed,
+object {
+    max-width: 100%;
+    height: auto;
 }
 
 /* =================================
@@ -89,6 +115,10 @@ input[type="checkbox"]::-moz-focus-inner {
     color: white;
     overflow: hidden;
     padding: 2rem 0;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
 }
 
 .hero-content {
@@ -189,148 +219,14 @@ input[type="checkbox"]::-moz-focus-inner {
 }
 
 /* =================================
-   HERO VISUAL & FLOATING CARDS
+   HERO VISUAL
    ================================= */
 .hero-visual {
     position: relative;
     height: 500px;
 }
 
-.floating-card {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 0.5rem 0.8rem;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    z-index: 5;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
 
-/* Спільні стилі для всіх карток */
-.card-1, .card-2, .card-3, .card-4, .card-5, .card-6 {
-    padding: 0.4rem 0.7rem;
-    font-size: 0.75rem;
-}
-
-.card-1 {
-    top: 10px;
-    left: 3%;
-    animation: float1 6s ease-in-out infinite;
-    z-index: 8;
-    background: rgba(102, 126, 234, 0.15);
-    border: 1px solid rgba(102, 126, 234, 0.3);
-}
-
-.card-2 {
-    top: -60px;
-    right: 5%;
-    animation: float2 4s ease-in-out infinite;
-    z-index: 6;
-    background: rgba(34, 197, 94, 0.15);
-    border: 1px solid rgba(34, 197, 94, 0.3);
-}
-
-.card-3 {
-    bottom: 125px;
-    left: 5%;
-    animation: float3 5s ease-in-out infinite;
-    z-index: 4;
-    background: rgba(245, 158, 11, 0.15);
-    border: 1px solid rgba(245, 158, 11, 0.3);
-}
-
-.card-4 {
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: float4 7s ease-in-out infinite;
-    z-index: 7;
-    padding: 0.4rem 0.6rem;
-    background: rgba(236, 72, 153, 0.15);
-    border: 1px solid rgba(236, 72, 153, 0.3);
-}
-
-.card-5 {
-    top: 80%;
-    left: -26%;
-    transform: translateY(-50%);
-    animation: float5 3.5s ease-in-out infinite;
-    z-index: 3;
-    background: rgba(59, 130, 246, 0.15);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-}
-
-.card-6 {
-    bottom: 95px;
-    right: 5%;
-    animation: float6 8s ease-in-out infinite;
-    z-index: 9;
-    background: rgba(34, 197, 94, 0.15);
-    border: 1px solid rgba(34, 197, 94, 0.3);
-}
-
-/* =================================
-   FLOATING CARDS ANIMATIONS
-   ================================= */
-@keyframes float1 {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    25% { transform: translateY(-15px) rotate(2deg); }
-    50% { transform: translateY(-25px) rotate(0deg); }
-    75% { transform: translateY(-10px) rotate(-2deg); }
-}
-
-@keyframes float2 {
-    0%, 100% { transform: translateY(0px) scale(1); }
-    33% { transform: translateY(-20px) scale(1.05); }
-    66% { transform: translateY(-8px) scale(0.98); }
-}
-
-@keyframes float3 {
-    0%, 100% { transform: translateY(0px) translateX(0px); }
-    50% { transform: translateY(-18px) translateX(5px); }
-}
-
-@keyframes float4 {
-    0%, 100% { transform: translateX(-50%) translateY(0px) rotate(0deg); }
-    25% { transform: translateX(-50%) translateY(-12px) rotate(-1deg); }
-    50% { transform: translateX(-50%) translateY(0px) rotate(1deg); }
-    75% { transform: translateX(-50%) translateY(-8px) rotate(0deg); }
-}
-
-@keyframes float4-mobile {
-    0%, 100% { transform: translateX(-50%) translateY(0px) rotate(0deg); }
-    25% { transform: translateX(-50%) translateY(-8px) rotate(-1deg); }
-    50% { transform: translateX(-50%) translateY(0px) rotate(1deg); }
-    75% { transform: translateX(-50%) translateY(-5px) rotate(0deg); }
-}
-
-@keyframes float5 {
-    0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); }
-    50% { transform: translateY(-50%) scale(1.08) rotate(3deg); }
-}
-
-@keyframes float5-mobile {
-    0%, 100% { transform: translateX(-50%) translateY(0px) scale(1) rotate(0deg); }
-    50% { transform: translateX(-50%) translateY(-10px) scale(1.05) rotate(2deg); }
-}
-
-@keyframes float6 {
-    0%, 100% { transform: translateY(0px) translateX(0px); }
-    20% { transform: translateY(-12px) translateX(-3px); }
-    40% { transform: translateY(-22px) translateX(3px); }
-    60% { transform: translateY(-18px) translateX(-2px); }
-    80% { transform: translateY(-8px) translateX(2px); }
-}
 
 /* =================================
    HERO BACKGROUND ANIMATION
@@ -354,13 +250,34 @@ input[type="checkbox"]::-moz-focus-inner {
     animation: moveUpDown 4s ease-in-out infinite;
 }
 
-.dot-1 { top: 20%; left: 10%; animation-delay: 0s; }
-.dot-2 { top: 60%; right: 15%; animation-delay: 1.5s; }
-.dot-3 { bottom: 20%; left: 60%; animation-delay: 3s; }
+.dot-1 {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.dot-2 {
+    top: 60%;
+    right: 15%;
+    animation-delay: 1.5s;
+}
+
+.dot-3 {
+    bottom: 20%;
+    left: 60%;
+    animation-delay: 3s;
+}
 
 @keyframes moveUpDown {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-30px); }
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-30px);
+    }
 }
 
 /* =================================
@@ -400,6 +317,8 @@ input[type="checkbox"]::-moz-focus-inner {
     padding: 3rem;
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--border-color);
+    overflow: hidden;
+    position: relative;
 }
 
 /* Form Steps */
@@ -418,6 +337,14 @@ input[type="checkbox"]::-moz-focus-inner {
 
 .question-step.slide-out-right {
     animation: slideOutRight 0.3s ease-in;
+}
+
+.question-step.slide-in-left {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+.question-step.slide-in-right {
+    animation: slideInRight 0.3s ease-out;
 }
 
 /* Question Header */
@@ -514,7 +441,7 @@ input[type="checkbox"]::-moz-focus-inner {
     transform: translateY(-2px);
 }
 
-.form-input:focus + .input-icon {
+.form-input:focus+.input-icon {
     color: var(--primary-color);
 }
 
@@ -549,12 +476,12 @@ input[type="checkbox"]::-moz-focus-inner {
     pointer-events: none;
 }
 
-.option-card input[type="radio"]:checked + .option-label {
+.option-card input[type="radio"]:checked+.option-label {
     background: var(--primary-color);
     color: white;
 }
 
-.option-card input[type="radio"]:checked + .option-label .option-icon {
+.option-card input[type="radio"]:checked+.option-label .option-icon {
     background: rgba(255, 255, 255, 0.2);
     color: white;
 }
@@ -592,8 +519,15 @@ input[type="checkbox"]::-moz-focus-inner {
    GENERAL ANIMATIONS
    ================================= */
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Checkbox Styles */
@@ -634,18 +568,18 @@ input[type="checkbox"]::-moz-focus-inner {
     pointer-events: none;
 }
 
-.checkbox-card input[type="checkbox"]:checked + .checkbox-label {
+.checkbox-card input[type="checkbox"]:checked+.checkbox-label {
     background: var(--secondary-color);
     color: white;
     border-color: var(--secondary-color);
 }
 
-.checkbox-card input[type="checkbox"]:checked + .checkbox-label .checkbox-icon {
+.checkbox-card input[type="checkbox"]:checked+.checkbox-label .checkbox-icon {
     background: rgba(255, 255, 255, 0.2);
     color: white;
 }
 
-.checkbox-card.other-option input[type="checkbox"]:checked + .checkbox-label {
+.checkbox-card.other-option input[type="checkbox"]:checked+.checkbox-label {
     background: #3B82F6;
     color: white;
     border-color: #3B82F6;
@@ -663,93 +597,194 @@ input[type="checkbox"]::-moz-focus-inner {
     color: #3B82F6;
 }
 
-.checkbox-card.other-option input[type="checkbox"]:checked + .checkbox-label {
+.checkbox-card.other-option input[type="checkbox"]:checked+.checkbox-label {
     background: #3B82F6;
     color: white;
     border-color: #3B82F6;
 }
 
-.checkbox-card.other-option input[type="checkbox"]:checked + .checkbox-label .checkbox-icon {
+.checkbox-card.other-option input[type="checkbox"]:checked+.checkbox-label .checkbox-icon {
     background: rgba(255, 255, 255, 0.2);
     color: white;
 }
 
 @keyframes optionSelectedPulse {
-    0% { transform: translateY(0) scale(1); }
-    25% { transform: translateY(-2px) scale(1.01); }
-    50% { transform: translateY(-4px) scale(1.02); }
-    75% { transform: translateY(-2px) scale(1.01); }
-    100% { transform: translateY(0) scale(1); }
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    25% {
+        transform: translateY(-2px) scale(1.01);
+    }
+
+    50% {
+        transform: translateY(-4px) scale(1.02);
+    }
+
+    75% {
+        transform: translateY(-2px) scale(1.01);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+    }
 }
 
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
 }
 
 @keyframes slideInRight {
-    from { opacity: 0; transform: translateX(30px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideInLeft {
-    from { opacity: 0; transform: translateX(-30px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideOutLeft {
-    from { opacity: 1; transform: translateX(0); }
-    to { opacity: 0; transform: translateX(-30px); }
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
 }
 
 @keyframes slideOutRight {
-    from { opacity: 1; transform: translateX(0); }
-    to { opacity: 0; transform: translateX(30px); }
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
 }
 
 @keyframes bounceIn {
-    0% { transform: scale(0.3); opacity: 0; }
-    50% { transform: scale(1.05); }
-    70% { transform: scale(0.9); }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
 }
 
 @keyframes glow {
-    from { text-shadow: 0 0 20px rgba(245, 158, 11, 0.3); }
-    to { text-shadow: 0 0 30px rgba(245, 158, 11, 0.6); }
+    from {
+        text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+    }
+
+    to {
+        text-shadow: 0 0 30px rgba(245, 158, 11, 0.6);
+    }
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes compactPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-30px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes fadeOut {
-    from { opacity: 1; transform: translateY(0); }
-    to { opacity: 0; transform: translateY(-20px); }
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
 }
 
 /* Застосування анімацій */
-.option-card.selected { animation: optionSelectedPulse 0.4s ease-out; }
+.option-card.selected {
+    animation: optionSelectedPulse 0.4s ease-out;
+}
+
 .compact-option.selected,
-.compact-checkbox.selected { animation: compactPulse 0.3s ease-out; }
+.compact-checkbox.selected {
+    animation: compactPulse 0.3s ease-out;
+}
 
 .form-input.error {
     border-color: #EF4444;
@@ -879,108 +914,109 @@ input[type="checkbox"]::-moz-focus-inner {
 
 /* Планшети та середні екрани (768px і менше) */
 @media (max-width: 768px) {
-    /* Спеціальний стиль для card-5 на всіх мобільних розмірах */
-    .card-5 {
-        padding: 0.4rem 0.7rem !important;
-        font-size: 0.75rem !important;
+
+    /* Hero Section для планшетів */
+    .hero-section {
+        min-height: auto;
+        padding: 3rem 0 2rem;
     }
+
     .hero-title {
         font-size: 2.5rem;
+        text-align: center;
+        line-height: 1.2;
     }
-    
+
     .hero-subtitle {
         font-size: 1.2rem;
         max-width: 100%;
         font-weight: 600;
         color: #ffffff;
+        text-align: center;
+        padding: 0 1rem;
     }
-    
+
     .hero-features {
         gap: 0.75rem;
+        align-items: center;
+        text-align: center;
     }
-    
+
+    .cta-button {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+        display: block;
+    }
+
+
+
+    /* Questionnaire */
     .questionnaire-container {
         padding: 2rem 1.5rem;
+        margin: 0 1rem;
+        width: calc(100% - 2rem);
     }
-    
+
+    .section-header h2 {
+        font-size: 2.2rem;
+        line-height: 1.3;
+    }
+
     .options-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
-    
+
     .checkbox-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
-    
+
     .step-navigation {
         flex-direction: column;
         gap: 1rem;
+        padding: 0 1rem;
     }
-    
+
     .step-navigation .btn {
         width: 100%;
+        padding: 1rem;
+        font-size: 1rem;
     }
-    
+
     .hero-visual {
         height: 350px;
         margin-top: 2rem;
     }
-    
-    /* Адаптація floating cards для планшетів */
-    .floating-card {
-        padding: 0.35rem 0.6rem;
-        font-size: 0.7rem;
+
+    /* Container та row adjustments */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        width: 100%;
     }
-    
-    .card-1 {
-        top: 10%;
-        left: 2%;
-        padding: 0.3rem 0.5rem;
-        font-size: 0.65rem;
+
+    .row {
+        margin-left: 0;
+        margin-right: 0;
     }
-    
-    .card-2 {
-        top: -30px;
-        right: 3%;
-        padding: 0.35rem 0.6rem;
-        font-size: 0.7rem;
+
+    .col-lg-6,
+    .col-lg-8,
+    .col-lg-10,
+    .col-md-6,
+    .col-md-4 {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
     }
-    
-    .card-3 {
-        bottom: 120px;
-        left: 3%;
-        padding: 0.35rem 0.6rem;
-        font-size: 0.7rem;
-    }
-    
-    .card-4 {
-        top: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        animation: float4-mobile 7s ease-in-out infinite;
-        padding: 0.3rem 0.5rem;
-        font-size: 0.65rem;
-    }
-    
-    .card-5 {
-        bottom: 50px;
-        left: 50%;
-        transform: translateX(-50%);
-        animation: float5-mobile 3.5s ease-in-out infinite;
-        padding: 0.4rem 0.7rem;
-        font-size: 0.75rem;
-    }
-    
-    .card-6 {
-        bottom: 100px;
-        right: 8%;
-        padding: 0.35rem 0.6rem;
-        font-size: 0.7rem;
-    }
-    
+
+
+
     .question-header h3 {
         font-size: 1.25rem;
     }
-    
+
     .question-number {
         width: 50px;
         height: 50px;
@@ -988,144 +1024,195 @@ input[type="checkbox"]::-moz-focus-inner {
     }
 }
 
-/* Мобільні пристрої */
+/* Мобільні пристрої (576px і менше) */
 @media (max-width: 576px) {
+
+    /* Hero Section для мобільних */
+    .hero-section {
+        padding: 2rem 0 1.5rem;
+    }
+
     .hero-title {
         font-size: 2rem;
+        line-height: 1.1;
+        margin-bottom: 1rem;
     }
-    
+
     .hero-subtitle {
         font-size: 1.1rem;
         font-weight: 600;
         color: #ffffff;
+        padding: 0 1.5rem;
+        margin-bottom: 1.5rem;
     }
-    
+
+    .hero-features {
+        margin-bottom: 1.5rem;
+    }
+
+    .cta-button {
+        max-width: 280px;
+        font-size: 1rem;
+        padding: 0.875rem 1.5rem;
+    }
+
+    /* Questionnaire для мобільних */
     .questionnaire-container {
         padding: 1.5rem 1rem;
+        margin: 0 0.5rem;
+        width: calc(100% - 1rem);
     }
-    
+
+    .section-header h2 {
+        font-size: 1.8rem;
+        padding: 0 0.5rem;
+    }
+
+    .section-header p {
+        font-size: 0.95rem;
+        padding: 0 1rem;
+    }
+
     .option-label {
         padding: 1.5rem 1rem;
+        font-size: 0.95rem;
     }
-    
+
     .checkbox-label {
         padding: 1rem;
+        font-size: 0.95rem;
     }
-    
-    /* Адаптація floating cards для мобільних */
-    .floating-card {
-        padding: 0.3rem 0.5rem;
-        font-size: 0.65rem;
+
+    .question-header h3 {
+        font-size: 1.2rem;
+        line-height: 1.3;
     }
-    
-    .card-1 {
-        top: 8%;
-        left: 1%;
-        padding: 0.25rem 0.4rem;
-        font-size: 0.6rem;
+
+    /* Container adjustments */
+    .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
     }
-    
-    .card-2 {
-        top: -25px;
-        right: 2%;
-        padding: 0.3rem 0.5rem;
-        font-size: 0.65rem;
+
+    .col-lg-6,
+    .col-lg-8,
+    .col-lg-10,
+    .col-md-6,
+    .col-md-4 {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
     }
-    
-    .card-3 {
-        bottom: 110px;
-        left: 2%;
-        padding: 0.3rem 0.5rem;
-        font-size: 0.65rem;
-    }
-    
-    .card-4 {
-        top: -8px;
-        left: 50%;
-        transform: translateX(-50%);
-        animation: float4-mobile 7s ease-in-out infinite;
-        padding: 0.25rem 0.4rem;
-        font-size: 0.6rem;
-    }
-    
-    .card-5 {
-        bottom: 40px;
-        left: 50%;
-        transform: translateX(-50%);
-        animation: float5-mobile 3.5s ease-in-out infinite;
-        padding: 0.4rem 0.7rem;
-        font-size: 0.75rem;
-    }
-    
-    .card-6 {
-        bottom: 90px;
-        right: 6%;
-        padding: 0.3rem 0.5rem;
-        font-size: 0.65rem;
-    }
+
+
 }
 
 /* Дуже маленькі екрани (480px і менше) */
 @media (max-width: 480px) {
-    .hero-title { font-size: 1.8rem; }
-    .hero-subtitle { font-size: 1rem; }
-    .hero-visual { height: 320px; }
-    
-    /* Floating cards для дуже маленьких екранів */
-    .floating-card {
-        padding: 0.25rem 0.4rem;
-        font-size: 0.6rem;
+
+    /* Hero Section для дуже маленьких екранів */
+    .hero-section {
+        padding: 1.5rem 0 1rem;
+        min-height: auto;
     }
-    
-    .card-1 {
-        top: 5%;
-        left: 0%;
-        padding: 0.2rem 0.35rem;
-        font-size: 0.55rem;
+
+    .hero-title {
+        font-size: 1.8rem;
+        line-height: 1.1;
+        margin-bottom: 0.75rem;
+        padding: 0 1rem;
     }
-    
-    .card-2 {
-        top: -20px;
-        right: 1%;
-        padding: 0.25rem 0.4rem;
-        font-size: 0.6rem;
+
+    .hero-subtitle {
+        font-size: 1rem;
+        line-height: 1.4;
+        padding: 0 1.5rem;
+        margin-bottom: 1.25rem;
     }
-    
-    .card-3 {
-        bottom: 110px;
-        left: 1%;
-        padding: 0.25rem 0.4rem;
-        font-size: 0.6rem;
+
+    .hero-features {
+        margin-bottom: 1.25rem;
     }
-    
-    .card-4 {
-        top: -5px;
-        left: 50%;
-        transform: translateX(-50%);
-        animation: float4-mobile 7s ease-in-out infinite;
-        padding: 0.2rem 0.3rem;
-        font-size: 0.55rem;
+
+    .feature-item {
+        font-size: 1rem;
     }
-    
-    .card-5 {
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        animation: float5-mobile 3.5s ease-in-out infinite;
-        padding: 0.4rem 0.7rem;
-        font-size: 0.75rem;
+
+    .cta-button {
+        max-width: 250px;
+        font-size: 0.95rem;
+        padding: 0.8rem 1.25rem;
     }
-    
-    .card-6 {
-        bottom: 80px;
-        right: 4%;
-        padding: 0.4rem 0.6rem;
-        font-size: 0.65rem;
+
+    .hero-visual {
+        height: 280px;
+        margin-top: 1rem;
     }
+
+    /* Questionnaire для дуже маленьких екранів */
+    .questionnaire-container {
+        padding: 1.25rem 0.75rem;
+        margin: 0 0.25rem;
+        width: calc(100% - 0.5rem);
+    }
+
+    .section-header h2 {
+        font-size: 1.6rem;
+        line-height: 1.2;
+        padding: 0 0.5rem;
+    }
+
+    .section-header p {
+        font-size: 0.9rem;
+        padding: 0 1rem;
+    }
+
+    .question-header h3 {
+        font-size: 1.1rem;
+        padding: 0 0.5rem;
+    }
+
+    .option-label,
+    .checkbox-label {
+        font-size: 0.9rem;
+        padding: 1rem 0.75rem;
+    }
+
+    .compact-label,
+    .compact-checkbox-label {
+        font-size: 0.9rem;
+        padding: 0.875rem 0.75rem;
+    }
+
+    /* Container adjustments для маленьких екранів */
+    .container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        width: 100%;
+    }
+
+    .row {
+        margin-left: -0.25rem;
+        margin-right: -0.25rem;
+    }
+
+    .col-lg-6,
+    .col-lg-8,
+    .col-lg-10,
+    .col-md-6,
+    .col-md-4,
+    [class*="col-"] {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
+
+
+
 }
 
 /* Utility Classes */
-.text-center { text-align: center !important; }
+.text-center {
+    text-align: center !important;
+}
 
 /* Додаткове принудження центрування для заголовків */
 .questionnaire-section .text-center h2,
@@ -1140,10 +1227,22 @@ input[type="checkbox"]::-moz-focus-inner {
     margin-left: auto !important;
     margin-right: auto !important;
 }
-.mb-4 { margin-bottom: 1.5rem; }
-.mb-5 { margin-bottom: 3rem; }
-.mt-3 { margin-top: 1rem; }
-.mt-4 { margin-top: 1.5rem; }
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.mb-5 {
+    margin-bottom: 3rem;
+}
+
+.mt-3 {
+    margin-top: 1rem;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
 
 /* Budget Range Styling */
 .budget-range {
@@ -1193,7 +1292,8 @@ input[type="checkbox"]::-moz-focus-inner {
 }
 
 /* Result Content Styles */
-.functionality-content, .integrations-content {
+.functionality-content,
+.integrations-content {
     background: #F8F9FA;
     padding: 1rem;
     border-radius: 8px;
@@ -1284,7 +1384,7 @@ input[type="checkbox"]::-moz-focus-inner {
     display: none;
 }
 
-.compact-option input[type="radio"]:checked + .compact-label {
+.compact-option input[type="radio"]:checked+.compact-label {
     background: linear-gradient(135deg, #8B78C1 0%, #A599D4 100%);
     border-color: #8B78C1;
     color: white;
@@ -1297,7 +1397,7 @@ input[type="checkbox"]::-moz-focus-inner {
     opacity: 0.8;
 }
 
-.compact-option input[type="radio"]:checked + .compact-label .option-icon-small {
+.compact-option input[type="radio"]:checked+.compact-label .option-icon-small {
     opacity: 1;
 }
 
@@ -1366,7 +1466,7 @@ input[type="checkbox"]::-moz-focus-inner {
     opacity: 0.8;
 }
 
-.compact-checkbox input[type="checkbox"]:checked + .compact-checkbox-label {
+.compact-checkbox input[type="checkbox"]:checked+.compact-checkbox-label {
     background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
     border-color: #10B981;
     color: white;
@@ -1374,7 +1474,7 @@ input[type="checkbox"]::-moz-focus-inner {
     box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
 }
 
-.compact-checkbox input[type="checkbox"]:checked + .compact-checkbox-label .checkbox-icon-small {
+.compact-checkbox input[type="checkbox"]:checked+.compact-checkbox-label .checkbox-icon-small {
     opacity: 1;
 }
 
@@ -1394,7 +1494,7 @@ input[type="checkbox"]::-moz-focus-inner {
     border-color: #3B82F6;
 }
 
-.compact-checkbox.other-option input[type="checkbox"]:checked + .compact-checkbox-label {
+.compact-checkbox.other-option input[type="checkbox"]:checked+.compact-checkbox-label {
     background: #3B82F6;
     border-color: #3B82F6;
     color: white;
@@ -1410,9 +1510,17 @@ input[type="checkbox"]::-moz-focus-inner {
 }
 
 @keyframes compactPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* Responsive adjustments */
@@ -1421,12 +1529,12 @@ input[type="checkbox"]::-moz-focus-inner {
         grid-template-columns: 1fr;
         max-width: 350px;
     }
-    
+
     .compact-checkbox-grid {
         grid-template-columns: 1fr;
         max-width: 350px;
     }
-    
+
     .compact-label,
     .compact-checkbox-label {
         width: 100%;
@@ -1434,7 +1542,7 @@ input[type="checkbox"]::-moz-focus-inner {
         font-size: 0.95rem;
         padding: 1rem;
     }
-    
+
     .question-header h3 {
         font-size: 1.4rem;
     }
@@ -1454,7 +1562,7 @@ input[type="checkbox"]::-moz-focus-inner {
 .motivation-text {
     font-size: 1.2rem;
     font-weight: 600;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .price-display-new {
@@ -1463,7 +1571,7 @@ input[type="checkbox"]::-moz-focus-inner {
     border-radius: 16px;
     padding: 2rem;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
 }
@@ -1492,7 +1600,8 @@ input[type="checkbox"]::-moz-focus-inner {
     margin-bottom: 1rem;
 }
 
-.price-from, .price-to {
+.price-from,
+.price-to {
     font-size: 2.5rem;
     font-weight: 700;
     color: #3B82F6;
@@ -1518,7 +1627,7 @@ input[type="checkbox"]::-moz-focus-inner {
     background: white;
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     border: 1px solid #e2e8f0;
 }
 
@@ -1557,7 +1666,7 @@ input[type="checkbox"]::-moz-focus-inner {
     background: white;
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     border: 1px solid #e2e8f0;
 }
 
@@ -1570,7 +1679,7 @@ input[type="checkbox"]::-moz-focus-inner {
     background: white;
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     border: 1px solid #e2e8f0;
     height: 100%;
     transition: all 0.3s ease;
@@ -1578,7 +1687,7 @@ input[type="checkbox"]::-moz-focus-inner {
 
 .detail-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .detail-header {
@@ -1757,7 +1866,7 @@ input[type="checkbox"]::-moz-focus-inner {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
     transition: left 0.5s;
 }
 
@@ -1787,37 +1896,22 @@ input[type="checkbox"]::-moz-focus-inner {
     .motivation-text {
         font-size: 1rem;
     }
-    
-    .price-from, .price-to {
+
+    .price-from,
+    .price-to {
         font-size: 2rem;
     }
-    
+
     .contact-benefits {
-        gap: 0.75rem;
+        display: none;
+        /* Прибираємо benefit-badge на мобільних та планшетах */
     }
-    
-    .benefits-row {
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-    }
-    
-    .benefit-badge {
-        font-size: 0.85rem;
-        padding: 0.4rem 0.8rem;
-        text-align: center;
-        white-space: nowrap;
-        flex: 0 0 calc(50% - 0.25rem);
-        max-width: calc(50% - 0.25rem);
-    }
-    
+
     .contact-order-section-new {
         padding: 2rem 1rem;
         margin: 1rem 0;
     }
-    
+
     .btn-order-new {
         width: 100%;
         padding: 1rem;
@@ -1827,70 +1921,376 @@ input[type="checkbox"]::-moz-focus-inner {
 
 /* Додаткова мобільна адаптація для дуже малих екранів */
 @media (max-width: 480px) {
-    .benefits-row {
-        flex-direction: row;
-        justify-content: center;
-        gap: 0.3rem;
-        flex-wrap: wrap;
+
+    /* Результатне вікно для мобільних */
+    .motivation-text {
+        font-size: 0.95rem;
+        padding: 0.75rem 1rem;
+        line-height: 1.4;
     }
-    
-    .benefit-badge {
-        font-size: 0.8rem;
-        padding: 0.35rem 0.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1.2;
-        height: auto;
-        min-height: 36px;
-        flex: 0 0 calc(50% - 0.15rem);
-        max-width: calc(50% - 0.15rem);
-        text-align: center;
+
+    .price-display-new {
+        padding: 1.5rem 1rem;
+        margin: 1rem 0.5rem;
     }
-    
+
+    .price-header h4 {
+        font-size: 1.1rem;
+        line-height: 1.3;
+    }
+
+    .price-from,
+    .price-to {
+        font-size: 2rem;
+    }
+
+    .price-timeline {
+        font-size: 0.9rem;
+        margin-top: 0.75rem;
+    }
+
     .contact-benefits {
-        gap: 0.5rem;
-        padding: 0 0.5rem;
+        display: none;
+        /* Прибираємо benefit-badge на всіх мобільних пристроях */
     }
-    
+
+    .contact-order-section-new {
+        padding: 1.5rem 0.75rem;
+        margin: 1rem 0.25rem;
+    }
+
     .contact-header-new h3 {
         font-size: 1.3rem;
+        line-height: 1.3;
+        margin-bottom: 0.75rem;
     }
-    
+
     .contact-subtitle {
         font-size: 1rem;
+        line-height: 1.4;
+        margin-bottom: 1.25rem;
+    }
+
+    .contact-form-new {
+        padding: 0;
+    }
+
+    .form-input-new {
+        padding: 0.875rem 1rem 0.875rem 2.5rem;
+        font-size: 1rem;
+        border-radius: 10px;
+    }
+
+    .input-icon-new {
+        left: 0.875rem;
+    }
+
+    .btn-order-new {
+        padding: 1rem;
+        font-size: 1rem;
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    /* Деталі проекту для мобільних */
+    .detail-card {
+        margin-bottom: 1rem;
+        padding: 1rem 0.75rem;
+        border-radius: 10px;
+    }
+
+    .detail-header h6 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .detail-content {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .whats-included {
+        padding: 1rem 0.75rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+    }
+
+    .whats-included h5 {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .included-item {
+        font-size: 0.9rem;
+        padding: 0.5rem 0;
+    }
+
+    .recommendations-card {
+        padding: 1rem 0.75rem;
+        margin: 1rem 0.25rem;
+        border-radius: 10px;
+    }
+
+    .recommendations-card h5 {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .recommendation-item {
+        font-size: 0.9rem;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        border-radius: 8px;
+        line-height: 1.4;
+    }
+
+    /* Demo зображення */
+    .demo-container {
+        margin: 1.5rem 0;
+        padding: 0 0.5rem;
+    }
+
+    .demo-image {
+        border-radius: 10px;
     }
 }
 
 /* Адаптація для дуже малих екранів (старі телефони) */
 @media (max-width: 360px) {
-    .benefit-badge {
-        font-size: 0.75rem;
-        padding: 0.3rem 0.4rem;
-        min-height: 32px;
+
+    /* Hero section для дуже маленьких екранів */
+    .hero-title {
+        font-size: 1.6rem;
+        padding: 0 0.75rem;
     }
-    
-    .contact-benefits {
-        gap: 0.4rem;
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+        padding: 0 1rem;
+    }
+
+    .cta-button {
+        max-width: 220px;
+        font-size: 0.9rem;
+        padding: 0.75rem 1rem;
+    }
+
+    /* Questionnaire для дуже маленьких екранів */
+    .questionnaire-container {
+        padding: 1rem 0.5rem;
+        margin: 0 0.125rem;
+        width: calc(100% - 0.25rem);
+    }
+
+    .section-header h2 {
+        font-size: 1.4rem;
         padding: 0 0.25rem;
     }
-    
-    .benefits-row {
-        gap: 0.2rem;
+
+    .question-header h3 {
+        font-size: 1rem;
+        padding: 0 0.25rem;
+    }
+
+    .option-label,
+    .checkbox-label {
+        font-size: 0.85rem;
+        padding: 0.875rem 0.5rem;
+    }
+
+    .compact-label,
+    .compact-checkbox-label {
+        font-size: 0.85rem;
+        padding: 0.75rem 0.5rem;
+    }
+
+    /* Результатне вікно для дуже маленьких екранів */
+    .price-display-new {
+        padding: 1.25rem 0.75rem;
+        margin: 0.75rem 0.25rem;
+    }
+
+    .price-header h4 {
+        font-size: 1rem;
+    }
+
+    .price-from,
+    .price-to {
+        font-size: 1.8rem;
+    }
+
+    .contact-order-section-new {
+        padding: 1.25rem 0.5rem;
+        margin: 0.75rem 0.125rem;
+    }
+
+    .contact-header-new h3 {
+        font-size: 1.2rem;
+    }
+
+    .contact-subtitle {
+        font-size: 0.95rem;
+    }
+
+    .form-input-new {
+        padding: 0.8rem 0.875rem 0.8rem 2.25rem;
+        font-size: 0.95rem;
+    }
+
+    .input-icon-new {
+        left: 0.75rem;
+    }
+
+    .btn-order-new {
+        padding: 0.875rem;
+        font-size: 0.95rem;
+    }
+
+    .detail-card {
+        padding: 0.875rem 0.5rem;
+    }
+
+    .detail-header h6 {
+        font-size: 0.95rem;
+    }
+
+    .detail-content {
+        font-size: 0.85rem;
+    }
+
+    .whats-included,
+    .recommendations-card {
+        padding: 0.875rem 0.5rem;
+        margin: 0.75rem 0.125rem;
+    }
+
+    .included-item,
+    .recommendation-item {
+        font-size: 0.85rem;
+        padding: 0.5rem 0;
+    }
+
+    .contact-benefits {
+        display: none;
+        /* Прибираємо benefit-badge на старих телефонах */
     }
 }
 
 /* Адаптація для екранів 481px - 767px (маленькі планшети) */
 @media (min-width: 481px) and (max-width: 767px) {
-    .benefits-row {
-        justify-content: center;
-        gap: 0.75rem;
+    .contact-benefits {
+        display: none;
+        /* Прибираємо benefit-badge на планшетах */
     }
-    
-    .benefit-badge {
-        font-size: 0.85rem;
-        padding: 0.45rem 0.9rem;
-        flex: 0 0 auto;
+}
+
+/* Спеціальне правило для iOS Safari */
+@supports (-webkit-touch-callout: none) {
+    @media (max-width: 1024px) {
+        .contact-benefits {
+            display: none !important;
+            /* Прибираємо benefit-badge на всіх iOS пристроях */
+        }
+    }
+}
+
+/* Адаптація для iPad (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .hero-title {
+        font-size: 3rem;
+        text-align: center;
+    }
+
+    .hero-subtitle {
+        text-align: center;
+        font-size: 1.25rem;
+        padding: 0 2rem;
+    }
+
+    .hero-features {
+        text-align: center;
+        align-items: center;
+    }
+
+    .cta-button {
+        margin: 0 auto;
+        display: block;
+        max-width: 400px;
+    }
+
+    .questionnaire-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .options-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .checkbox-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+/* Landscape орієнтація для мобільних */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero-section {
+        min-height: auto;
+        padding: 1rem 0;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-features {
+        margin-bottom: 1rem;
+        flex-direction: row;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .feature-item {
+        font-size: 0.9rem;
+    }
+
+    .hero-visual {
+        height: 250px;
+        margin-top: 1rem;
+    }
+
+
+}
+
+/* Додаткові правила для touch пристроїв */
+@media (hover: none) and (pointer: coarse) {
+
+    .option-card:hover,
+    .checkbox-card:hover,
+    .compact-label:hover,
+    .compact-checkbox-label:hover {
+        transform: none;
+        background: inherit;
+    }
+
+    .btn:hover,
+    .cta-button:hover,
+    .btn-order-new:hover {
+        transform: none;
+    }
+
+    .included-item:hover,
+    .detail-card:hover {
+        transform: none;
     }
 }
 
@@ -1944,7 +2344,8 @@ input[type="checkbox"]::-moz-focus-inner {
 }
 
 .price-display-new::before {
-    background: none; /* Прибираємо попередній градієнт */
+    background: none;
+    /* Прибираємо попередній градієнт */
 }
 
 .price-display-new .price-header h4,
@@ -1967,7 +2368,8 @@ input[type="checkbox"]::-moz-focus-inner {
 }
 
 .contact-order-section-new::before {
-    display: none; /* Прибираємо попередній градієнт */
+    display: none;
+    /* Прибираємо попередній градієнт */
 }
 
 .contact-order-section-new .contact-header-new h3,
@@ -2044,13 +2446,17 @@ input[type="checkbox"]::-moz-focus-inner {
     0% {
         background-position: 0% 50%;
     }
+
     50% {
         background-position: 100% 50%;
     }
+
     100% {
         background-position: 0% 50%;
     }
 }
+
+
 
 /* Покращення стилів для блоків деталей */
 .detail-card {

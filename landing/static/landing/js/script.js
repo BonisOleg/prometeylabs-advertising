@@ -4,14 +4,14 @@ console.log('Starting application...');
 // Глобальна змінна для відстеження поточного кроку
 let currentStep = 1;
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM loaded, initializing form...');
-    
+
     initializeForm();
     bindEvents();
     setupNoneLogic();
     setupAnimations();
-    
+
     // Initialize all inputs visibility state
     document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
         const label = input.nextElementSibling;
@@ -26,7 +26,7 @@ function initializeForm() {
     const firstStep = document.querySelector('.question-step[data-step="1"]');
     if (firstStep) {
         firstStep.classList.add('active');
-        
+
         // Приховуємо кнопку "Назад" на першому кроці
         const prevButton = firstStep.querySelector('.prev-step');
         if (prevButton) {
@@ -34,7 +34,7 @@ function initializeForm() {
             prevButton.style.pointerEvents = 'none';
         }
     }
-    
+
     // Приховуємо всі поля крім обов'язкових
     clearAllFormInputs();
 }
@@ -43,18 +43,18 @@ function clearAllFormInputs() {
     // Очищуємо всі радіо кнопки та чекбокси
     document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
         input.checked = false;
-        
+
         const label = input.nextElementSibling;
         if (label) {
             label.classList.remove('selected');
         }
-        
+
         const parentCard = input.closest('.compact-option, .compact-checkbox, .option-card, .checkbox-card');
         if (parentCard) {
             parentCard.classList.remove('selected');
         }
     });
-    
+
     // Очищуємо всі текстові поля
     document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea').forEach(input => {
         input.value = '';
@@ -66,25 +66,29 @@ function clearAllFormInputs() {
 function bindEvents() {
     // Навігація між кроками
     document.querySelectorAll('.next-step').forEach(button => {
-        button.addEventListener('click', nextStep);
+        button.addEventListener('click', function (e) {
+            nextStep();
+        });
     });
-    
+
     document.querySelectorAll('.prev-step').forEach(button => {
-        button.addEventListener('click', prevStep);
+        button.addEventListener('click', function (e) {
+            prevStep();
+        });
     });
-    
+
     // Обробка форми відправки
     const questionnaireForm = document.getElementById('questionnaireForm');
     if (questionnaireForm) {
-        questionnaireForm.addEventListener('submit', function(e) {
+        questionnaireForm.addEventListener('submit', function (e) {
             e.preventDefault();
             submitForm();
         });
     }
-    
+
     // Обробка радіо кнопок
     document.querySelectorAll('input[type="radio"]').forEach(radio => {
-        radio.addEventListener('change', function() {
+        radio.addEventListener('change', function () {
             // Очищуємо вибір в групі
             const groupName = this.name;
             document.querySelectorAll(`input[name="${groupName}"]`).forEach(r => {
@@ -93,7 +97,7 @@ function bindEvents() {
                 if (label) label.classList.remove('selected');
                 if (parentCard) parentCard.classList.remove('selected');
             });
-            
+
             // Вибираємо поточний елемент
             const label = this.nextElementSibling;
             const parentCard = this.closest('.compact-option, .option-card');
@@ -105,7 +109,7 @@ function bindEvents() {
                     parentCard.style.animation = '';
                 }, 400);
             }
-            
+
 
         });
     });
@@ -114,12 +118,12 @@ function bindEvents() {
 function setupNoneLogic() {
     // Обробка чекбоксу "Нічого з перерахованого"
     const noneCheckboxes = document.querySelectorAll('input[value="none"]');
-    
+
     noneCheckboxes.forEach(noneCheckbox => {
-        noneCheckbox.addEventListener('change', function() {
+        noneCheckbox.addEventListener('change', function () {
             const container = this.closest('.compact-checkbox-section, .checkbox-section');
             const otherCheckboxes = container.querySelectorAll('input[type="checkbox"]:not([value="none"])');
-            
+
             if (this.checked) {
                 // Якщо вибрано "Нічого", знімаємо всі інші вибори
                 otherCheckboxes.forEach(checkbox => {
@@ -132,10 +136,10 @@ function setupNoneLogic() {
             }
         });
     });
-    
+
     // Обробка інших чекбоксів (автоматично знімають "Нічого")
     document.querySelectorAll('input[type="checkbox"]:not([value="none"])').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
+        checkbox.addEventListener('change', function () {
             if (this.checked) {
                 const container = this.closest('.compact-checkbox-section, .checkbox-section');
                 const noneCheckbox = container.querySelector('input[value="none"]');
@@ -147,7 +151,7 @@ function setupNoneLogic() {
                     if (noneCard) noneCard.classList.remove('selected');
                 }
             }
-            
+
             // Додаємо/знімаємо клас selected
             const label = this.nextElementSibling;
             const parentCard = this.closest('.compact-checkbox, .checkbox-card');
@@ -164,35 +168,29 @@ function setupNoneLogic() {
                 if (label) label.classList.remove('selected');
                 if (parentCard) parentCard.classList.remove('selected');
             }
-            
+
 
         });
     });
 }
 
 function setupAnimations() {
-    // Анімація floating cards
-    const floatingCards = document.querySelectorAll('.floating-card');
-    floatingCards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.05}s`;
-    });
-    
     const animationDots = document.querySelectorAll('.animation-dot');
     animationDots.forEach((card, index) => {
         card.style.animationDelay = `${index * 0.03}s`;
     });
-    
+
     // Анімація при завантаженні сторінки
     const heroContent = document.querySelector('.hero-content');
     const heroVisual = document.querySelector('.hero-visual');
-    
+
     if (heroContent) {
         setTimeout(() => {
             heroContent.style.opacity = '1';
             heroContent.style.transform = 'translateY(0)';
         }, 100);
     }
-    
+
     if (heroVisual) {
         setTimeout(() => {
             heroVisual.style.opacity = '1';
@@ -204,15 +202,15 @@ function setupAnimations() {
 function validateCurrentStep() {
     const currentStepElement = document.querySelector(`.question-step[data-step="${currentStep}"]`);
     if (!currentStepElement) return false;
-    
+
     const requiredRadios = currentStepElement.querySelectorAll('input[type="radio"][required]');
     const requiredCheckboxes = currentStepElement.querySelectorAll('input[type="checkbox"][required]');
     const requiredInputs = currentStepElement.querySelectorAll('input[required], textarea[required]');
-    
+
     // Перевіряємо радіо кнопки
     const radioGroups = new Set();
     requiredRadios.forEach(radio => radioGroups.add(radio.name));
-    
+
     for (const groupName of radioGroups) {
         const groupRadios = currentStepElement.querySelectorAll(`input[name="${groupName}"]`);
         const isChecked = Array.from(groupRadios).some(radio => radio.checked);
@@ -230,30 +228,38 @@ function validateCurrentStep() {
             return false;
         }
     }
-    
+
     // Перевіряємо текстові поля
     for (const input of requiredInputs) {
         if (!validateField(input)) {
             return false;
         }
     }
-    
+
     return true;
 }
 
 function validateField(field) {
     const value = field.value.trim();
     const container = field.closest('.contact-field, .contact-field-new');
-    
+
     // Очищуємо попередні помилки
     clearFieldError(container);
-    
-    if (!value) {
+
+    if (field.hasAttribute('required') && !value) {
         showFieldError(container, 'Це поле обов\'язкове');
         return false;
     }
-    
-    // Валідація email
+
+    // Валідація telegram/instagram
+    if (field.name === 'telegram_instagram' && value) {
+        if (!validateTelegramInstagram(value)) {
+            showFieldError(container, 'Введіть коректний @telegram або @instagram нікнейм');
+            return false;
+        }
+    }
+
+    // Валідація email (якщо поле ще існує)
     if (field.type === 'email') {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(value)) {
@@ -261,35 +267,35 @@ function validateField(field) {
             return false;
         }
     }
-    
-    // Валідація телефону
-    if (field.type === 'tel') {
-        const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
+
+    // Валідація телефону з маскою
+    if (field.type === 'tel' && value) {
+        const phoneRegex = /^\+38\(\d{3}\) \d{3}-\d{2}-\d{2}$/;
         if (!phoneRegex.test(value)) {
-            showFieldError(container, 'Невірний формат телефону');
+            showFieldError(container, 'Введіть коректний номер телефону');
             return false;
         }
     }
-    
+
     return true;
 }
 
 function showFieldError(container, message) {
     if (!container) return;
-    
+
     let errorElement = container.querySelector('.field-error');
     if (!errorElement) {
         errorElement = document.createElement('div');
         errorElement.className = 'field-error';
         container.appendChild(errorElement);
     }
-    
+
     errorElement.textContent = message;
     errorElement.style.color = '#ef4444';
     errorElement.style.fontSize = '0.875rem';
     errorElement.style.marginTop = '0.25rem';
     errorElement.style.animation = 'fadeInDown 0.3s ease-out';
-    
+
     const input = container.querySelector('input, textarea');
     if (input) {
         input.style.borderColor = '#ef4444';
@@ -302,12 +308,12 @@ function showFieldError(container, message) {
 
 function clearFieldError(container) {
     if (!container) return;
-    
+
     const errorElement = container.querySelector('.field-error');
     if (errorElement) {
         errorElement.remove();
     }
-    
+
     const input = container.querySelector('input, textarea');
     if (input) {
         input.style.borderColor = '';
@@ -316,114 +322,96 @@ function clearFieldError(container) {
 
 function nextStep() {
     if (!validateCurrentStep()) return;
-    
+
     const currentStepElement = document.querySelector(`.question-step[data-step="${currentStep}"]`);
     const nextStepElement = document.querySelector(`.question-step[data-step="${currentStep + 1}"]`);
-    
+
     if (nextStepElement) {
-        // Анімація виходу поточного кроку
-        currentStepElement.classList.add('slide-out-left');
+        // Прибираємо фокус з будь-яких елементів щоб запобігти скролу
+        document.activeElement.blur();
+
+        // Миттєво приховуємо поточний крок
+        currentStepElement.style.display = 'none';
         currentStepElement.classList.remove('active');
-        
-        setTimeout(() => {
-            // Приховуємо поточний крок
-            currentStepElement.style.display = 'none';
-            currentStepElement.classList.remove('slide-out-left');
-            
-            // Показуємо наступний крок
-            nextStepElement.style.display = 'block';
-            nextStepElement.classList.add('slide-in-right', 'active');
-            
-            // Оновлюємо номер кроку
-            currentStep++;
-            
-            // Показуємо кнопку "Назад" на всіх кроках окрім першого
-            const prevButton = nextStepElement.querySelector('.prev-step');
-            if (prevButton && currentStep > 1) {
-                prevButton.style.opacity = '1';
-                prevButton.style.pointerEvents = 'auto';
-            }
-            
-            setTimeout(() => {
-                nextStepElement.classList.remove('slide-in-right');
-            }, 300);
-        }, 300);
+
+        // Миттєво показуємо наступний крок
+        nextStepElement.style.display = 'block';
+        nextStepElement.classList.add('active');
+
+        // Оновлюємо номер кроку
+        currentStep++;
+
+        // Показуємо кнопку "Назад" на всіх кроках окрім першого
+        const prevButton = nextStepElement.querySelector('.prev-step');
+        if (prevButton && currentStep > 1) {
+            prevButton.style.opacity = '1';
+            prevButton.style.pointerEvents = 'auto';
+        }
     }
 }
 
 function prevStep() {
     const currentStepElement = document.querySelector(`.question-step[data-step="${currentStep}"]`);
     const prevStepElement = document.querySelector(`.question-step[data-step="${currentStep - 1}"]`);
-    
+
     if (prevStepElement) {
-        // Анімація виходу поточного кроку
-        currentStepElement.classList.add('slide-out-right');
+        // Прибираємо фокус з будь-яких елементів щоб запобігти скролу
+        document.activeElement.blur();
+
+        // Миттєво приховуємо поточний крок
+        currentStepElement.style.display = 'none';
         currentStepElement.classList.remove('active');
-        
-        setTimeout(() => {
-            // Приховуємо поточний крок
-            currentStepElement.style.display = 'none';
-            currentStepElement.classList.remove('slide-out-right');
-            
-            // Показуємо попередній крок
-            prevStepElement.style.display = 'block';
-            prevStepElement.classList.add('slide-in-left', 'active');
-            
-            // Оновлюємо номер кроку
-            currentStep--;
-            
-            // Приховуємо кнопку "Назад" на першому кроці
-            if (currentStep === 1) {
-                const prevButton = prevStepElement.querySelector('.prev-step');
-                if (prevButton) {
-                    prevButton.style.opacity = '0';
-                    prevButton.style.pointerEvents = 'none';
-                }
+
+        // Миттєво показуємо попередній крок
+        prevStepElement.style.display = 'block';
+        prevStepElement.classList.add('active');
+
+        // Оновлюємо номер кроку
+        currentStep--;
+
+        // Приховуємо кнопку "Назад" на першому кроці
+        if (currentStep === 1) {
+            const prevButton = prevStepElement.querySelector('.prev-step');
+            if (prevButton) {
+                prevButton.style.opacity = '0';
+                prevButton.style.pointerEvents = 'none';
             }
-            
-            setTimeout(() => {
-                prevStepElement.classList.remove('slide-in-left');
-            }, 300);
-        }, 300);
+        }
     }
 }
 
-function scrollToForm() {
-    document.getElementById('questionnaire').scrollIntoView({ 
-        behavior: 'smooth' 
-    });
-}
+
 
 async function submitForm() {
     const form = document.getElementById('questionnaireForm');
     const formData = new FormData(form);
     const submitButton = document.querySelector('.submit-btn');
-    
+
     // Додаємо вибрані checkbox значення з правильними іменами
     const priorities = [];
     document.querySelectorAll('input[name="priorities_selected"]:checked').forEach(input => {
         priorities.push(input.value);
     });
-    
+
     const trafficSources = [];
     document.querySelectorAll('input[name="traffic_sources_selected"]:checked').forEach(input => {
         trafficSources.push(input.value);
     });
-    
+
     const features = [];
     document.querySelectorAll('input[name="features_selected"]:checked').forEach(input => {
         features.push(input.value);
     });
-    
+
     // Додаємо дані до FormData
     priorities.forEach(priority => formData.append('priorities', priority));
     trafficSources.forEach(source => formData.append('traffic_sources', source));
     features.forEach(feature => formData.append('needed_features', feature));
-    
+
     // Показуємо стан завантаження
     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Обробляємо...';
     submitButton.disabled = true;
-    
+
     try {
         const response = await fetch('/process/', {
             method: 'POST',
@@ -432,9 +420,9 @@ async function submitForm() {
                 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
             }
         });
-        
+
         const data = await response.json();
-        
+
         if (data.success) {
             showResults(data);
         } else {
@@ -457,14 +445,14 @@ function showResults(data) {
         "Створюємо магію для вашого бізнесу! 🌟",
         "Ваш успіх - наша мета! 🎯"
     ];
-    
+
     const randomPhrase = motivationPhrases[Math.floor(Math.random() * motivationPhrases.length)];
-    
+
     // Використовуємо ціну з backend (вже розрахована залежно від складності)
     const calculatedPrice = data.estimated_price || 259;
     const minPrice = Math.max(209, calculatedPrice - 30); // Мінімальна ціна на 30 менше
     const maxPrice = Math.min(499, calculatedPrice + 30); // Максимальна ціна на 30 більше
-    
+
     // Переконуємося, що ціни закінчуються на "9"
     const adjustToNine = (price) => {
         const lastDigit = price % 10;
@@ -473,12 +461,12 @@ function showResults(data) {
         }
         return price;
     };
-    
+
     const finalMinPrice = adjustToNine(minPrice);
     const finalMaxPrice = adjustToNine(maxPrice);
-    
+
     const mockupHTML = generateAdvancedMockup(data);
-    
+
     const resultContent = document.getElementById('resultContent');
     resultContent.innerHTML = `
         <div class="motivation-banner">
@@ -529,14 +517,14 @@ function showResults(data) {
                     </div>
                     <div class="contact-field-new">
                         <div class="input-wrapper-new">
-                            <i class="fas fa-envelope input-icon-new"></i>
-                            <input type="email" name="email" class="form-input-new" placeholder="Email" required>
+                            <i class="fab fa-telegram input-icon-new"></i>
+                            <input type="text" name="telegram_instagram" class="form-input-new" placeholder="@telegram або @instagram" required>
                         </div>
                     </div>
                     <div class="contact-field-new">
                         <div class="input-wrapper-new">
                             <i class="fas fa-phone input-icon-new"></i>
-                            <input type="tel" name="phone" class="form-input-new" placeholder="Телефон (необов'язково)">
+                            <input type="tel" name="phone" class="form-input-new phone-mask" placeholder="+38(0__) ___-__-__" maxlength="17">
                         </div>
                     </div>
                 </div>
@@ -617,34 +605,38 @@ function showResults(data) {
         </div>
         ` : ''}
     `;
-    
+
     // Показуємо модальне вікно
     const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
     resultModal.show();
-    
+
     // Анімація збільшення ціни
     const priceElement = document.getElementById('priceAmount');
     if (priceElement) {
         animateValue(priceElement, finalMinPrice, finalMaxPrice, 2000);
     }
-    
+
     // Обробка форми замовлення
     const contactForm = document.getElementById('contactForm');
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
         submitContactForm(data);
     });
+
+    // Ініціалізуємо маску телефону та @ для telegram/instagram
+    initPhoneMask();
+    initTelegramInstagramInput();
 }
 
 function submitContactForm(data) {
     const form = document.getElementById('contactForm');
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
-    
+
     // Показуємо стан завантаження
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Відправляємо...';
     submitBtn.disabled = true;
-    
+
     const formData = new FormData(form);
     formData.append('estimated_price', data.estimated_price);
     formData.append('estimated_days', data.estimated_days);
@@ -652,7 +644,7 @@ function submitContactForm(data) {
     formData.append('style', data.style);
     formData.append('integrations', data.integrations);
     formData.append('recommendations', JSON.stringify(data.recommendations));
-    
+
     fetch('/submit-contact/', {
         method: 'POST',
         body: formData,
@@ -660,50 +652,50 @@ function submitContactForm(data) {
             'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
         }
     })
-    .then(response => response.json())
-    .then(result => {
-        if (result.success) {
-            // Показуємо успішне повідомлення
-            submitBtn.innerHTML = '<i class="fas fa-check"></i> Відправлено!';
-            submitBtn.classList.remove('btn-order-new');
-            submitBtn.classList.add('btn-success');
-            
-            // Показуємо повідомлення про успіх
-            const successMessage = document.createElement('div');
-            successMessage.className = 'alert alert-success mt-3';
-            successMessage.innerHTML = `
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                // Показуємо успішне повідомлення
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> Відправлено!';
+                submitBtn.classList.remove('btn-order-new');
+                submitBtn.classList.add('btn-success');
+
+                // Показуємо повідомлення про успіх
+                const successMessage = document.createElement('div');
+                successMessage.className = 'alert alert-success mt-3';
+                successMessage.innerHTML = `
                 <i class="fas fa-check-circle"></i>
                 <strong>Дякуємо!</strong> Ми зв'яжемося з вами протягом години.
             `;
-            form.appendChild(successMessage);
-            
-            // Очищуємо форму
-            form.reset();
-            
-            setTimeout(() => {
-                successMessage.style.animation = 'fadeOut 0.5s ease-out';
+                form.appendChild(successMessage);
+
+                // Очищуємо форму
+                form.reset();
+
                 setTimeout(() => {
-                    if (successMessage.parentNode) {
-                        successMessage.remove();
-                    }
-                }, 500);
-            }, 5000);
-        } else {
-            throw new Error(result.error || 'Помилка відправки');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Спробуйте ще раз';
-        submitBtn.classList.add('btn-warning');
-        
-        setTimeout(() => {
-            submitBtn.innerHTML = originalText;
-            submitBtn.classList.remove('btn-warning');
-            submitBtn.classList.add('btn-order-new');
-            submitBtn.disabled = false;
-        }, 3000);
-    });
+                    successMessage.style.animation = 'fadeOut 0.5s ease-out';
+                    setTimeout(() => {
+                        if (successMessage.parentNode) {
+                            successMessage.remove();
+                        }
+                    }, 500);
+                }, 5000);
+            } else {
+                throw new Error(result.error || 'Помилка відправки');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Спробуйте ще раз';
+            submitBtn.classList.add('btn-warning');
+
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.classList.remove('btn-warning');
+                submitBtn.classList.add('btn-order-new');
+                submitBtn.disabled = false;
+            }, 3000);
+        });
 }
 
 function generateAdvancedMockup(data) {
@@ -755,25 +747,126 @@ function animateValue(element, start, end, duration) {
     requestAnimationFrame(step);
 }
 
-// Function to scroll to contact form from price block
-function scrollToContactForm() {
-    const contactSection = document.querySelector('.contact-order-section-new');
-    if (contactSection) {
-        contactSection.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
+
+
+// Функція маски для українського номера телефону
+function initPhoneMask() {
+    const phoneInputs = document.querySelectorAll('.phone-mask');
+
+    phoneInputs.forEach(input => {
+        // Встановлюємо початкове значення +38
+        if (!input.value) {
+            input.value = '+38';
+        }
+
+        input.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, ''); // Залишаємо тільки цифри
+
+            // Якщо користувач видаляє і залишається менше ніж 38, повертаємо +38
+            if (value.length < 2 || !value.startsWith('38')) {
+                value = '38';
+            }
+
+            // Форматуємо номер
+            let formattedValue = '+38';
+            if (value.length > 2) {
+                formattedValue += '(' + value.substring(2, 5);
+                if (value.length > 5) {
+                    formattedValue += ') ' + value.substring(5, 8);
+                    if (value.length > 8) {
+                        formattedValue += '-' + value.substring(8, 10);
+                        if (value.length > 10) {
+                            formattedValue += '-' + value.substring(10, 12);
+                        }
+                    }
+                }
+            }
+
+            e.target.value = formattedValue;
         });
-        
-        // Add a highlight effect
-        contactSection.style.animation = 'none';
-        setTimeout(() => {
-            contactSection.style.animation = 'highlightPulse 1.5s ease-out';
-        }, 100);
+
+        input.addEventListener('keydown', function (e) {
+            // Забороняємо видалення +38
+            if (e.key === 'Backspace' && e.target.selectionStart <= 3) {
+                e.preventDefault();
+            }
+        });
+
+        input.addEventListener('focus', function (e) {
+            // При фокусі встановлюємо курсор після +38
+            if (e.target.value === '+38') {
+                setTimeout(() => {
+                    e.target.setSelectionRange(3, 3);
+                }, 0);
+            }
+        });
+    });
+}
+
+// Функція для автоматичного додавання @ у telegram/instagram поле
+function initTelegramInstagramInput() {
+    const telegramInputs = document.querySelectorAll('input[name="telegram_instagram"]');
+
+    telegramInputs.forEach(input => {
+        // Встановлюємо початкове значення @
+        if (!input.value) {
+            input.value = '@';
+        }
+
+        input.addEventListener('input', function (e) {
+            let value = e.target.value;
+
+            // Якщо користувач видаляє @ або поле порожнє, повертаємо @
+            if (!value.startsWith('@')) {
+                // Видаляємо всі символи @ з середини і додаємо один на початок
+                value = '@' + value.replace(/@/g, '');
+            }
+
+            // Залишаємо тільки дозволені символи: букви, цифри, підкреслення
+            value = value.replace(/[^@a-zA-Z0-9_]/g, '');
+
+            e.target.value = value;
+        });
+
+        input.addEventListener('keydown', function (e) {
+            // Забороняємо видалення @
+            if (e.key === 'Backspace' && e.target.selectionStart === 1 && e.target.value.startsWith('@')) {
+                e.preventDefault();
+            }
+        });
+
+        input.addEventListener('focus', function (e) {
+            // При фокусі встановлюємо курсор після @
+            if (e.target.value === '@') {
+                setTimeout(() => {
+                    e.target.setSelectionRange(1, 1);
+                }, 0);
+            }
+        });
+    });
+}
+
+// Функція валідації telegram/instagram
+function validateTelegramInstagram(value) {
+    // Перевіряємо чи починається з @ і містить тільки букви, цифри і підкреслення
+    const pattern = /^@[a-zA-Z0-9_]{3,}$/;
+    return pattern.test(value);
+}
+
+
+
+// Функція скролу до анкети (тільки для CTA кнопки)
+function scrollToQuestionnaire() {
+    const questionnaireSection = document.getElementById('questionnaire');
+    if (questionnaireSection) {
+        questionnaireSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
     }
 }
 
 // Export functions for global access
-window.scrollToForm = scrollToForm;
-window.scrollToContactForm = scrollToContactForm;
+window.scrollToQuestionnaire = scrollToQuestionnaire;
 
 console.log('JavaScript file loaded successfully');

@@ -343,9 +343,9 @@ def result_page(request, result_id):
 def submit_contact(request):
     try:
         # Отримуємо дані з форми
-        contact_name = request.POST.get('contact_name', '').strip()
-        contact_email = request.POST.get('contact_email', '').strip()
-        contact_phone = request.POST.get('contact_phone', '').strip()
+        contact_name = request.POST.get('name', '').strip()
+        telegram_instagram = request.POST.get('telegram_instagram', '').strip()
+        contact_phone = request.POST.get('phone', '').strip()
         
         # Отримуємо дані розрахунку
         estimated_price = request.POST.get('estimated_price', '')
@@ -356,17 +356,43 @@ def submit_contact(request):
         recommendations = request.POST.get('recommendations', '')
         
         # Валідація обов'язкових полів
-        if not contact_name or not contact_email:
+        if not contact_name or not telegram_instagram:
             return JsonResponse({
                 'success': False,
-                'error': 'Ім\'я та email є обов\'язковими полями'
+                'error': 'Ім\'я та telegram/instagram є обов\'язковими полями'
+            })
+        
+        # Валідація telegram/instagram формату
+        import re
+        if not re.match(r'^@[a-zA-Z0-9_]{3,}$', telegram_instagram):
+            return JsonResponse({
+                'success': False,
+                'error': 'Введіть коректний @telegram або @instagram нікнейм'
+            })
+        
+        # Валідація телефону (якщо введений)
+        if contact_phone and not re.match(r'^\+38\(\d{3}\) \d{3}-\d{2}-\d{2}$', contact_phone):
+            return JsonResponse({
+                'success': False,
+                'error': 'Введіть коректний номер телефону у форматі +38(0__) ___-__-__'
             })
         
         # Тут можна додати логіку збереження в базу даних
         # або відправки email/повідомлення в Telegram
         
         # Для прикладу, просто логуємо дані
-
+        contact_data = {
+            'name': contact_name,
+            'telegram_instagram': telegram_instagram,
+            'phone': contact_phone,
+            'estimated_price': estimated_price,
+            'estimated_days': estimated_days,
+            'functionality': functionality,
+            'style': style,
+            'integrations': integrations,
+            'recommendations': recommendations
+        }
+        print(f"Нова заявка: {contact_data}")
         
         # Можна додати відправку в Telegram або email
         # send_telegram_notification(contact_data)
@@ -378,7 +404,7 @@ def submit_contact(request):
         })
         
     except Exception as e:
-
+        print(f"Помилка при обробці контактної форми: {e}")
         return JsonResponse({
             'success': False,
             'error': 'Виникла помилка при відправці. Спробуйте ще раз.'
