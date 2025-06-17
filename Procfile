@@ -1,0 +1,1 @@
+web: gunicorn prometeylabs_landing.wsgi:application 
