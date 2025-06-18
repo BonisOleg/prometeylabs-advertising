@@ -3,9 +3,11 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import json
-import random
 from .forms import QuestionnaireForm
 from .models import QuestionnaireResult
+import requests
+from django.conf import settings
+from datetime import datetime
 
 
 def index(request):
@@ -408,4 +410,76 @@ def submit_contact(request):
         return JsonResponse({
             'success': False,
             'error': 'Виникла помилка при відправці. Спробуйте ще раз.'
+        })
+
+
+def send_telegram_message(message):
+    """Відправка повідомлення в Telegram"""
+    token = settings.TELEGRAM_BOT_TOKEN
+    chat_id = settings.TELEGRAM_CHAT_ID
+    
+    if not token or not chat_id:
+        return False
+        
+    try:
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        data = {
+            'chat_id': chat_id,
+            'text': message,
+            'parse_mode': 'HTML'
+        }
+        response = requests.post(url, data=data, timeout=10)
+        return response.status_code == 200
+        
+    except Exception as e:
+        print(f"Telegram error: {e}")
+        return False
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def submit_questionnaire(request):
+    try:
+        data = json.loads(request.body)
+        form = QuestionnaireForm(data)
+        
+        if form.is_valid():
+            questionnaire = form.save()
+            
+            # Формуємо повідомлення для Telegram
+            message = f"""<b>Нова заявка з сайту!</b>
+            
+📱 <b>Контакти:</b>
+Телефон: {questionnaire.phone}
+Email: {questionnaire.email}
+Telegram/Instagram: {questionnaire.telegram_instagram}
+
+💼 <b>Деталі проекту:</b>
+Тип бізнесу: {questionnaire.business_type}
+Сфера діяльності: {questionnaire.business_field}
+Цільова аудиторія: {questionnaire.target_audience}
+Конкуренти: {questionnaire.competitors}
+
+💡 <b>Додаткова інформація:</b>
+Особливі побажання: {questionnaire.special_requests}
+Дата: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"""
+
+            # Відправляємо в Telegram
+            telegram_sent = send_telegram_message(message)
+            
+            return JsonResponse({
+                'success': True,
+                'message': 'Дякуємо! Ми зв\'яжемося з вами найближчим часом.'
+            })
+        else:
+            return JsonResponse({
+                'success': False,
+                'message': 'Будь ласка, перевірте правильність заповнення форми.',
+                'errors': form.errors
+            })
+    except Exception as e:
+        print(f"Error: {e}")
+        return JsonResponse({
+            'success': False,
+            'message': 'Виникла помилка при відправці. Спробуйте ще раз.'
         })

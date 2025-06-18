@@ -86,7 +86,7 @@
                     </div>
 
                     <div class="questionnaire-container" data-aos="fade-up" data-aos-delay="200">
-                        <form id="questionnaireForm" method="post">
+                        <form id="questionnaireForm" method="post" onsubmit="handleFormSubmit(event)">
                             {% csrf_token %}
 
                             <!-- Крок 1: Сфера бізнесу -->
@@ -255,6 +255,7 @@
                                 {{ form.email }}
                                 {{ form.phone }}
                             </div>
+                            <div id="formMessage"></div>
                         </form>
                     </div>
                 </div>

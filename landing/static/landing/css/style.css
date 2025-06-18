@@ -866,17 +866,6 @@ input[type="checkbox"]::-moz-focus-inner {
     animation: none;
 }
 
-/* Loading Animation */
-.loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid var(--border-color);
-    border-top: 5px solid var(--primary-color);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto;
-}
-
 /* Result Styles */
 .price-display {
     text-align: center;
@@ -1245,12 +1234,6 @@ input[type="checkbox"]::-moz-focus-inner {
 }
 
 /* Budget Range Styling */
-.budget-range {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--primary-color);
-}
-
 /* Contact Order Section */
 .contact-order-section {
     background: var(--bg-light);
@@ -1507,20 +1490,6 @@ input[type="checkbox"]::-moz-focus-inner {
 
 .compact-checkbox.selected {
     animation: compactPulse 0.3s ease-out;
-}
-
-@keyframes compactPulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-    }
-
-    100% {
-        transform: scale(1);
-    }
 }
 
 /* Responsive adjustments */
@@ -2317,17 +2286,6 @@ input[type="checkbox"]::-moz-focus-inner {
 }
 
 /* Additional styles for result page */
-.website-mockup {
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-.mockup-header {
-    background: #F9FAFB;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid #E5E7EB;
-}
-
 /* =================================
    ANIMATED GRADIENT BACKGROUNDS FOR RESULT PAGE
    ================================= */
@@ -2526,3 +2484,27 @@ section.questionnaire-section .section-header p {
 /* =================================
    END OF STYLESHEET
    ================================= */
+
+/* Alert Messages */
+.alert {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    font-weight: 500;
+}
+
+.alert-success {
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #34d399;
+}
+
+.alert-error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #f87171;
+}
+
+#formMessage {
+    margin-top: 1rem;
+}

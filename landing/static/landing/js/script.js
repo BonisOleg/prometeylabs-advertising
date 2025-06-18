@@ -870,3 +870,56 @@ function scrollToQuestionnaire() {
 window.scrollToQuestionnaire = scrollToQuestionnaire;
 
 console.log('JavaScript file loaded successfully');
+
+function showMessage(element, message, type) {
+    element.innerHTML = `
+        <div class="alert alert-${type}">
+            ${message}
+        </div>
+    `;
+    setTimeout(() => element.innerHTML = '', 5000);
+}
+
+async function handleFormSubmit(event) {
+    event.preventDefault();
+
+    const form = event.target;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const messageDiv = document.getElementById('formMessage');
+
+    // Показуємо лоадер
+    submitButton.disabled = true;
+    submitButton.innerHTML = 'Відправляємо...';
+
+    try {
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        const response = await fetch('/submit-questionnaire/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showMessage(messageDiv, result.message, 'success');
+            form.reset();
+        } else {
+            showMessage(messageDiv, result.message, 'error');
+            if (result.errors) {
+                console.error('Form errors:', result.errors);
+            }
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        showMessage(messageDiv, 'Помилка з\'єднання', 'error');
+    } finally {
+        submitButton.disabled = false;
+        submitButton.innerHTML = 'Відправити';
+    }
+}
